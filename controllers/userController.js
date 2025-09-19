@@ -4,10 +4,10 @@ module.exports = {
   signUpUser: async (req, res) => {
     try {
       if (!req.body.email || !req.body.password) {
-        throw new Error("Please enter valid information!");
+        throw new Error("Please enter valid email or password!");
       }
       const newUser = await service.signUp({
-        email: req.body.email,
+        email: req.body.email.trim().toLowerCase(),
         password: req.body.password,
       });
       res.json(newUser);
