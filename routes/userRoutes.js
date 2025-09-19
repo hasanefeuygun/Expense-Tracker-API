@@ -6,6 +6,7 @@ module.exports = () => {
 
   router.post("/", userController.signUpUser);
   router.get("/", userController.getAllUsers);
+  router.delete("/", userController.deleteAccount);
 
   return router;
 };

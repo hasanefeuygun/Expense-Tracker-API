@@ -23,4 +23,15 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  deleteAccount: async (req, res) => {
+    try {
+      if (!req.body.email) {
+        throw new Error("This email doesn't exist");
+      }
+      const deletedAccount = await service.deleteAccount(req.body.email);
+      res.json({ "Deleted Account": deletedAccount });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
 };

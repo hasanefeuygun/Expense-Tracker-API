@@ -19,4 +19,11 @@ module.exports = {
     const allUsers = await userModel.find({});
     return allUsers;
   },
+  deleteAccount: async (email) => {
+    const deletedAccount = await userModel.findOneAndDelete({ email });
+    if (!deletedAccount) {
+      throw new Error("User already doesn't exist");
+    }
+    return deletedAccount;
+  },
 };
