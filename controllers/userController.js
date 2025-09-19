@@ -1,7 +1,7 @@
 const service = require("../services/auth.service");
 
 module.exports = {
-  addNewUser: async (req, res) => {
+  signUpUser: async (req, res) => {
     try {
       if (!req.body.email || !req.body.password) {
         throw new Error("Please enter valid information!");
@@ -11,6 +11,14 @@ module.exports = {
         password: req.body.password,
       });
       res.json(newUser);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  getAllUsers: async (req, res) => {
+    try {
+      const allUsers = await service.getAllUsers();
+      res.json(allUsers);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

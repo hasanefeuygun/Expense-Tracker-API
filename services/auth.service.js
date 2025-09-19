@@ -8,4 +8,8 @@ module.exports = {
     const newUser = await userModel.create({ email, password });
     return newUser;
   },
+  getAllUsers: async () => {
+    const allUsers = await userModel.find({});
+    return allUsers;
+  },
 };

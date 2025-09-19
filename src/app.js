@@ -1,11 +1,11 @@
 const express = require("express");
-const createSignUpRoutes = require("../routes/signUpRoutes");
+const createUserRoutes = require("../routes/userRoutes");
 
 const createApp = () => {
   const app = express();
   app.use(express.json());
 
-  app.use("/signup", createSignUpRoutes());
+  app.use("/signup", createUserRoutes());
 
   return app;
 };
