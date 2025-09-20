@@ -1,7 +1,7 @@
 const service = require("../services/auth.service");
 
 module.exports = {
-  signUpUser: async (req, res) => {
+  signUp: async (req, res) => {
     try {
       if (!req.body.email || !req.body.password) {
         throw new Error("Please enter valid email or password!");
@@ -11,6 +11,23 @@ module.exports = {
         password: req.body.password,
       });
       res.json(newUser);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+  login: async (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    try {
+      if (!email) {
+        throw new Error("Please enter valid email!");
+      }
+      if (!password) {
+        throw new Error("Please enter valid password!");
+      }
+
+      const loggedUser = await service.login(email, password);
+      res.json(loggedUser);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
