@@ -11,10 +11,11 @@ module.exports = {
     return addedExpense;
   },
 
-  updateExpense: async (expenseType, expenseProduct, body) => {
+  updateExpense: async (expenseType, expenseProduct, body, user) => {
     const expense = await expensesModel.findOne({
       expense_type: expenseType,
       product: expenseProduct,
+      user,
     });
     if (!expense) throw new Error("Expense not found!");
 
@@ -22,10 +23,30 @@ module.exports = {
 
     const updatedExpense = await expensesModel.findByIdAndUpdate(
       expense._id,
-      { $set: { product, expense_type, amount, cost } },
+      {
+        $set: {
+          product,
+          expense_type,
+          amount,
+          cost,
+          total_cost: amount * cost,
+        },
+      },
       { new: true, runValidators: true }
     );
 
     return updatedExpense;
+  },
+
+  deleteExpense: async (expenseType, expenseProduct) => {
+    const expense = await expensesModel.findOne({
+      expense_type: expenseType,
+      product: expenseProduct,
+      user,
+    });
+    if (!expense) throw new Error("Expense not found!");
+
+    const deletedExpense = await expensesModel.deleteOne(expense);
+    return deletedExpense;
   },
 };

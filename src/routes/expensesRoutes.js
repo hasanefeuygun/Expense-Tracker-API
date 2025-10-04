@@ -6,6 +6,7 @@ module.exports = () => {
   router.get("/", expensesController.getAllExpenses);
   router.post("/", expensesController.addNewExpense);
   router.patch("/", expensesController.updateExpense);
+  router.delete("/", expensesController.deleteExpense);
 
   return router;
 };

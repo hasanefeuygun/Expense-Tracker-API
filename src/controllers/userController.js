@@ -16,17 +16,18 @@ module.exports = {
     }
   },
   login: async (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
     try {
-      if (!email) {
+      if (!req.body) {
+        throw new Error("Request body not found!");
+      }
+      if (!req.body.email) {
         throw new Error("Please enter valid email!");
       }
-      if (!password) {
+      if (!req.body.password) {
         throw new Error("Please enter valid password!");
       }
 
-      const loggedUser = await service.login(email, password);
+      const loggedUser = await service.login(req.body.email, req.body.password);
       res.json(loggedUser);
     } catch (err) {
       res.status(500).json({ error: err.message });

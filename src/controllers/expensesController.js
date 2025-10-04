@@ -14,7 +14,7 @@ module.exports = {
     try {
       if (
         !req.body.expense_type ||
-        req.body.product ||
+        !req.body.product ||
         !req.body.cost ||
         !req.body.amount
       )
@@ -36,15 +36,31 @@ module.exports = {
 
   updateExpense: async (req, res) => {
     try {
-      if (!req.body.expense_type || req.body.product)
-        throw new Error("Please enter valid information");
+      if (!req.body.expense_type || !req.body.product)
+        throw new Error("Please enter valid information!");
 
       const updatedExpense = await service.updateExpense(
         req.body.expense_type,
         req.body.product,
-        req.body
+        req.body,
+        req.user.email
       );
       res.json({ "Expense updated": updatedExpense });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
+  deleteExpense: async (req, res) => {
+    try {
+      if (!req.body.expense_type || !req.body.product)
+        throw new Error("Please enter valid information!");
+      const deletedExpense = await service.deleteExpense(
+        req.body.expense_type,
+        req.body.product,
+        req.user.email
+      );
+      res.json({ "Deleted expense": deletedExpense });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
